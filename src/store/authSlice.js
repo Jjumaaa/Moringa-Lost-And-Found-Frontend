@@ -1,68 +1,85 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { register, login, getProfile } from '../services/api';
 
-export const registerUser = createAsyncThunk('auth/register', async (data, { rejectWithValue }) => {
-  try {
-    const response = await register(data);
-    return response.data;
-  } catch (error) {
-    return rejectWithValue(error.response.data);
-  }
+// API Service Definition
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+export const api = createApi({
+  reducerPath: 'api',
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api' }),
+  endpoints: (builder) => ({
+    login: builder.mutation({
+      query: (credentials) => ({
+        url: '/auth/login',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
+    register: builder.mutation({
+      query: (userData) => ({
+        url: '/auth/register',
+        method: 'POST',
+        body: userData,
+      }),
+    }),
+  }),
 });
 
-export const loginUser = createAsyncThunk('auth/login', async (data, { rejectWithValue }) => {
-  try {
-    const response = await login(data);
-    localStorage.setItem('token', response.data.token);
-    return response.data;
-  } catch (error) {
-    return rejectWithValue(error.response.data);
-  }
-});
-
-export const fetchProfile = createAsyncThunk('auth/fetchProfile', async (_, { rejectWithValue }) => {
-  try {
-    const response = await getProfile();
-    return response.data;
-  } catch (error) {
-    return rejectWithValue(error.response.data);
-  }
-});
+export const { useLoginMutation, useRegisterMutation } = api;
 
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
+    isAuthenticated: !!localStorage.getItem('token'),
     user: null,
-    isAuthenticated: false,
-    loading: false,
-    error: null,
+    role: null,
   },
   reducers: {
-    logout: (state) => {
-      state.user = null;
+    loginSuccess(state, action) {
+      state.isAuthenticated = true;
+      state.user = action.payload.user;
+      state.role = action.payload.role;
+      localStorage.setItem('token', action.payload.token);
+    },
+    logout(state) {
       state.isAuthenticated = false;
+      state.user = null;
+      state.role = null;
       localStorage.removeItem('token');
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addMatcher(api.endpoints.login.matchFulfilled, (state, action) => {
+        state.isAuthenticated = true;
         state.user = action.payload.user;
-        state.isAuthenticated = true;
-        state.loading = false;
+        state.role = action.payload.role;
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-        state.isAuthenticated = true;
-        state.loading = false;
-      })
-      .addCase(fetchProfile.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.isAuthenticated = true;
-        state.loading = false;
+      .addMatcher(api.endpoints.register.matchFulfilled, (state, action) => {
+        state.isAuthenticated = false; // User needs to login after registration
+        state.user = null;
+        state.role = null;
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { loginSuccess, logout } = authSlice.actions;
 export default authSlice.reducer;
+
+// Thunks
+export const login = createAsyncThunk('auth/login', async (credentials, { rejectWithValue }) => {
+  try {
+    const response = await api.endpoints.login.initiate(credentials);
+    return response.data;
+  } catch (err) {
+    return rejectWithValue(err.response?.data?.message || 'Login failed');
+  }
+});
+
+export const register = createAsyncThunk('auth/register', async (userData, { rejectWithValue }) => {
+  try {
+    const response = await api.endpoints.register.initiate(userData);
+    return response.data;
+  } catch (err) {
+    return rejectWithValue(err.response?.data?.message || 'Registration failed');
+  }
+});
