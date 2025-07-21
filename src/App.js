@@ -8,8 +8,7 @@ import Dashboard from './pages/Dashboard';
 import ReportModal from './components/ReportModal';
 import Login from './components/Login';
 import Register from './components/Register';
-import './styles/App.css';
-import logo from './assets/logo.png';
+
 
 function AppContent() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -35,9 +34,6 @@ function AppContent() {
 
   return (
     <div className="app-container">
-      <div className="logo">
-        <img src={logo} alt="Lost & Found Logo" />
-      </div>
       {isAuthenticated ? (
         <>
           <Sidebar
