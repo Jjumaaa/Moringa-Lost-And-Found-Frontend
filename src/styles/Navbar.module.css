@@ -82,14 +82,14 @@
   background-color: #c82333;
 }
 
-/* Mobile adjustments */
+
 @media (max-width: 768px) {
   .brand {
     font-size: 1.2em;
   }
 
   .userInfo {
-    display: none; /* Hide user info on smaller screens */
+    display: none; 
   }
 
   .logoutButton {
