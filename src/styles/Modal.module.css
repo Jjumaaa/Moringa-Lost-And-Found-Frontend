@@ -51,7 +51,7 @@
 }
 
 .modalBody {
-  /* Add specific styling for body content if needed */
+
 }
 
 @keyframes fadeInScale {
@@ -65,7 +65,7 @@
   }
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 600px) {
   .modalContent {
     padding: 20px;
