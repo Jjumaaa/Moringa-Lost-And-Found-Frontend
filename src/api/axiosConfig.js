@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://my-repository-0z47.onrender.com',
+  baseURL: 'https://moringa-lost-and-found-backend-2.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   },

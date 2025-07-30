@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllRewards, selectAdmin } from './adminSlice'; // Renamed from adminSlice for all rewards
+import { fetchAllRewards, selectAdmin } from './adminSlice';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { formatCurrency, formatDate } from '../../utils/helpers';
 import styles from '../../styles/Dashboard.module.css';
-import itemCardStyles from '../../styles/ItemCard.module.css'; // For status styling
+import itemCardStyles from '../../styles/ItemCard.module.css'; 
 
 function AdminRewardManagement() {
   const dispatch = useDispatch();

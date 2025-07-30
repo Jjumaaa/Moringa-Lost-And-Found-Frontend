@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectAuth } from '../auth/authSlice'; // Ensure this path is correct
+import { selectAuth } from '../auth/authSlice'; 
 import { fetchAllUsers, selectAdmin } from './adminSlice';
 import { fetchItems, selectItem } from '../items/itemSlice';
 import LoadingSpinner from '../../components/LoadingSpinner';
@@ -9,7 +9,7 @@ import styles from '../../styles/Dashboard.module.css';
 
 function AdminDashboard() {
   const dispatch = useDispatch();
-  const { user: authUser } = useSelector(selectAuth); // authUser is now used
+  const { user: authUser } = useSelector(selectAuth);
   const { users, loading: adminLoading, error: adminError } = useSelector(selectAdmin);
   const { items, loading: itemsLoading, error: itemsError } = useSelector(selectItem);
 
@@ -22,7 +22,7 @@ function AdminDashboard() {
   const totalItems = items.length;
   const lostItems = items.filter(item => item.status === 'lost').length;
   const foundItems = items.filter(item => item.status === 'found').length;
-  const pendingClaims = items.filter(item => item.status === 'pending_claim_approval').length; // Assuming a status for pending claims
+  const pendingClaims = items.filter(item => item.status === 'pending_claim_approval').length;
 
   if (adminLoading || itemsLoading) {
     return <LoadingSpinner />;
@@ -34,7 +34,7 @@ function AdminDashboard() {
 
   return (
     <div className={styles.dashboardContainer}>
-      <h2 className={styles.dashboardHeader}>Welcome, {authUser?.username || 'Admin'}! Admin Dashboard</h2> {/* Use authUser here */}
+      <h2 className={styles.dashboardHeader}>Welcome, {authUser?.username || 'Admin'}! Admin Dashboard</h2>
 
       <section className={styles.dashboardSection}>
         <h3>Overview</h3>

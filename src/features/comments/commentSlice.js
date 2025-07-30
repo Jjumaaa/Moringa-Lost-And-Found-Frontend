@@ -7,7 +7,6 @@ const initialState = {
   error: null,
 };
 
-// Async Thunks
 export const fetchComments = createAsyncThunk(
   'comment/fetchComments',
   async (_, { rejectWithValue }) => {

@@ -52,7 +52,7 @@ function ItemDetails() {
         const imageUrl = reader.result; 
         const resultAction = await dispatch(uploadItemImage({ itemId: id, imageUrl: imageUrl })); 
         if (uploadItemImage.fulfilled.match(resultAction)) {
-          alert('Image uploaded successfully! (Note: Actual backend file upload logic needed)');
+          alert('Image uploaded successfully! (Bado Backend upload logic haijawekwa na Tina)');
           
         }
       };

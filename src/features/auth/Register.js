@@ -52,7 +52,7 @@ function Register() {
 
     try {
       console.log('Sending Registration Payload:', userData);
-      const response = await fetch('https://my-repository-0z47.onrender.com/register', {
+      const response = await fetch('https://moringa-lost-and-found-backend-2.onrender.com/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

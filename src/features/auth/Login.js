@@ -44,7 +44,7 @@ function Login() {
 
     try {
       console.log('Sending Payload:', credentials); 
-      const response = await fetch('https://my-repository-0z47.onrender.com/login', {
+      const response = await fetch('https://moringa-lost-and-found-backend-2.onrender.com/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials),
@@ -64,7 +64,7 @@ function Login() {
         dispatch(setAuth({ user: data.user, token: token }));
         navigate('/'); 
       } else {
-        setError(data.message || 'Imekataa bana');
+        setError(data.message || 'Wrong Credentials');
       }
     } catch (err) {
       setError('An error occurred. Please try again. Check console for details.');
