@@ -1,4 +1,3 @@
-// src/features/auth/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import API from '../../api/axiosConfig';
 
@@ -6,7 +5,7 @@ const initialState = {
   user: null,
   token: localStorage.getItem('token') || null,
   isAuthenticated: !!localStorage.getItem('token'),
-  loading: false, // 
+  loading: false,
   error: null,    
 };
 
@@ -43,11 +42,10 @@ export const checkAuthStatus = createAsyncThunk(
       if (!token) {
         return rejectWithValue('No token found');
       }
-      // Verify token by fetching user profile
       const response = await API.get('/me');
       return { user: response.data, token };
     } catch (error) {
-      localStorage.removeItem('token'); // Clear invalid token
+      localStorage.removeItem('token'); 
       return rejectWithValue(error.response?.data?.error || 'Authentication check failed');
     }
   }
