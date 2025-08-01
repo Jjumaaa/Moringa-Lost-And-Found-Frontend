@@ -1,70 +1,190 @@
-# Getting Started with Create React App
+# Moringa Lost & Found Inventory System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An inventory management system designed to help **students and staff at Moringa School** easily report and recover lost and found items. This full-stack application streamlines the process of tracking items, facilitating claims, and managing rewards.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Project Overview
+Items are often misplaced at Moringa School, making recovery frustrating. This project solves that by providing a **centralized platform** for managing lost and found items, ensuring smooth tracking, claiming, and reward management.
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Problem Statement
+- Students and staff frequently misplace personal items.  
+- The current manual process for retrieving them is slow and unreliable.  
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## Solution
+A web-based system that allows:
+- Users → report lost/found items, initiate claims, offer rewards.  
+- Admins → manage inventory, approve claims, oversee users, and track reward history.  
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Features
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### User Capabilities
+- Authentication & Registration  
+- Report lost or found items  
+- Browse items & search/filter  
+- Comment on items and interact with others  
+- Offer/receive rewards for returned items  
+- Manage personal profile & reward history  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Admin Capabilities
+- Secure login with elevated privileges  
+- Manage all reported items (add, update, delete, upload images)  
+- Approve/reject item claims  
+- Dashboard with key metrics (users, lost/found items, claims, rewards)  
+- Full record keeping (items recovered, rewards paid, claims history)  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Tech Stack
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Frontend
+- React.js + React Router  
+- Redux Toolkit for state management  
+- Axios + Fetch API for API requests  
+- CSS Modules & React Icons  
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Backend
+- Flask (Python)  
+- SQLite + SQLAlchemy + Flask-Migrate  
+- JWT Authentication (Flask-JWT-Extended)  
+- Flask-CORS for frontend-backend communication  
+- Werkzeug for password hashing  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Getting Started
 
-## Learn More
+### Prerequisites
+- Python 3.8+  
+- Node.js (LTS)  
+- SQLite  
+- Git  
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Backend Setup (Flask)
+```bash
+git clone git@github.com:Jjumaaa/Moringa-Lost-And-Found-Backend.git
+cd Moringa-Lost-And-Found-Backend
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate   
 
-### Code Splitting
+# Install dependencies
+pip install -r requirements.txt
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# Create .env file
+FLASK_APP=app.py
+FLASK_ENV=development
+SECRET_KEY=your_flask_secret
+JWT_SECRET_KEY=your_jwt_secret
+DATABASE_URL=postgresql://postgres:password@localhost:5432/moringa_lost_found
 
-### Analyzing the Bundle Size
+# Initialize DB
+flask db init
+flask db migrate -m "Initial migration"
+flask db upgrade
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Run server
+flask run --port 10000
+Frontend Setup (React)
+bash
+Copy
+Edit
+cd moringa-lost-and-found-frontend
+npm install   
 
-### Making a Progressive Web App
+# .env
+REACT_APP_API_BASE_URL=http://127.0.0.1:10000
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+# Run frontend
+npm start     
+Usage Guide
+Authentication
+Register with username, email, password (role: user/admin).
 
-### Advanced Configuration
+Login → redirect to User Dashboard or Admin Dashboard.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+User Flow
+Report lost/found items
 
-### Deployment
+Browse/search items
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Claim items & comment on reports
 
-### `npm run build` fails to minify
+Offer rewards & track history
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Admin Flow
+Manage users & items
+
+Approve claims
+
+Oversee reward transactions
+
+Dashboard with metrics
+
+API Endpoints
+Method	Endpoint	Description	Access
+POST	/register	Register a new user/admin	Public
+POST	/login	Authenticate & get JWT token	Public
+GET	/me	Get current user profile	Private
+PATCH	/users/me	Update current user profile	Private
+GET	/users	Get all users	Admin Only
+GET	/items	Get all items	Public
+POST	/items	Report a new item	Private
+GET	/items/:id	Get item details	Public
+PATCH	/items/:id	Update item details	Private
+DELETE	/items/:id	Delete an item	Admin Only
+POST	/claims	Initiate claim	Admin Only
+PATCH	/claims/:id/approve	Approve claim	Admin Only
+POST	/comments	Add comment	Private
+PATCH	/comments/:id	Edit comment	Private
+DELETE	/comments/:id	Delete comment	Private
+POST	/rewards	Offer reward for item	Private
+PATCH	/rewards/:id/pay	Mark reward as paid	Private
+GET	/rewards/history	Get reward history	Private
+POST	/images	Upload item image	Private
+DELETE	/images/:id	Delete item image	Private
+
+Project Structure
+bash
+Copy
+Edit
+moringa-lost-and-found-frontend/
+│── public/
+│── src/
+│   ├── api/axiosConfig.js
+│   ├── app/store.js
+│   ├── components/Sidebar.js
+│   ├── features/
+│   │   ├── admin/ (AdminDashboard.js, adminSlice.js, ...)
+│   │   ├── auth/ (Login.js, Register.js, authSlice.js)
+│   │   ├── comments/ (CommentSection.js, commentSlice.js)
+│   │   ├── items/ (ItemDetails.js, itemSlice.js)
+│   │   ├── rewards/ (OfferReward.js, RewardHistory.js, rewardSlice.js)
+│   │   └── user/ (UserProfile.js, userSlice.js)
+│   ├── routes/AppRoutes.js
+│   ├── styles/App.module.css
+│   ├── utils/helpers.js
+│   ├── App.js
+│   └── index.js
+│── .env
+│── package.json
+
+Contributing
+Contributions are welcome!
+
+Open an issue for suggestions/bugs.
+
+Submit a pull request for improvements.
+
+License
+Licensed under the MIT License. See the LICENSE file.
+
+Acknowledgements
+Moringa School for the project idea and learning environment.
